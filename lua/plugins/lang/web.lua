@@ -37,12 +37,12 @@ return {
         html = {
           filetypes = { "html", "htmldjango", "blade" },
         },
-        
+
         -- CSS
         cssls = {
           filetypes = { "css", "scss", "less" },
         },
-        
+
         -- Emmet
         emmet_ls = {
           filetypes = {
@@ -57,7 +57,7 @@ return {
             "vue",
           },
         },
-        
+
         -- TypeScript/JavaScript
         ts_ls = {},
       },
@@ -74,11 +74,11 @@ return {
         "css-lsp",
         "emmet-ls",
         "typescript-language-server",
-        
+
         -- Formatters
         "prettierd",
         "prettier",
-        
+
         -- Linters
         "eslint_d",
         "htmlhint",
@@ -110,10 +110,32 @@ return {
     opts = {
       linters_by_ft = {
         html = { "htmlhint" },
-        css = { "stylelint" },
+        -- css = { "stylelint" },
         javascript = { "eslint_d" },
         typescript = { "eslint_d" },
       },
     },
+  },
+
+  -- Live Server
+  {
+    "barrett-ruth/live-server.nvim",
+    build = "npm install -g live-server",
+    cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
+    ft = { "html", "css", "javascript" },
+    keys = {
+      { "<leader>cL", "<cmd>LiveServerStart<cr>", desc = "Start Live Server", ft = "html" },
+      { "<leader>cl", "<cmd>LiveServerStop<cr>", desc = "Stop Live Server", ft = "html" },
+    },
+    opts = {
+      args = {
+        "--port=8080",
+        "--browser=firefox", -- Change to: brave-browser, google-chrome, chromium
+        "--quiet",
+      },
+    },
+    config = function(_, opts)
+      require("live-server").setup(opts)
+    end,
   },
 }

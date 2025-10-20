@@ -20,12 +20,12 @@ require("lazy").setup({
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
 
      -- Import from subdirectories
-    { import = "plugins.lang" },
     { import = "plugins.editor" },
+    { import = "plugins.lang" },
     { import = "plugins.ui" },
-    -- { import = "plugins.core" },
     -- { import = "plugins.lsp" },
     -- { import = "plugins.coding" },
+    -- { import = "plugins.core" },
     -- { import = "plugins.git" },
 
   },

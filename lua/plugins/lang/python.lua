@@ -35,8 +35,8 @@ return {
         "pyright",
         "black",
         "isort",
-        "flake8",
-        "mypy",
+        -- "flake8",
+        -- "mypy",
         "debugpy",
       },
     },
@@ -53,12 +53,12 @@ return {
   },
 
   -- Linting
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        python = { "flake8", "mypy" },
-      },
-    },
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   opts = {
+  --     linters_by_ft = {
+  --       python = { "flake8", "mypy" },
+  --     },
+  --   },
+  -- },
 }
