@@ -1,4 +1,4 @@
-# Bikram's Development Environment
+# b1kr3m's Development Environment
 
 A lightweight, highly customized Neovim configuration tailored for security researchers, bug bounty hunters, and penetration testers. Built with performance and efficiency in mind for daily security testing workflows.
 
