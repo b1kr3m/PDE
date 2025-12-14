@@ -2,6 +2,9 @@
 
 A lightweight, highly customized Neovim configuration tailored for security researchers, bug bounty hunters, and penetration testers. Built with performance and efficiency in mind for daily security testing workflows.
 
+<img width="1914" height="1076" alt="image" src="https://github.com/user-attachments/assets/4dd14a03-eb15-4b0b-aa56-971358d89bdc" />
+
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Neovim](https://img.shields.io/badge/Neovim-0.9+-green.svg)](https://neovim.io)
 [![LazyVim](https://img.shields.io/badge/LazyVim-Latest-purple.svg)](https://www.lazyvim.org/)
