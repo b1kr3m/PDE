@@ -1,0 +1,163 @@
+-- -- ~/.config/nvim/lua/plugins/dap/rust-dap.lua
+-- return {
+--   {
+--     "simrat39/rust-tools.nvim",
+--     ft = "rust",
+--     dependencies = {
+--       "neovim/nvim-lspconfig",
+--       "nvim-lua/plenary.nvim",
+--       "mfussenegger/nvim-dap",
+--       "rcarriga/nvim-dap-ui",
+--       "theHamsta/nvim-dap-virtual-text",
+--     },
+--     config = function()
+--       local ok_rt, rust_tools = pcall(require, "rust-tools")
+--       if not ok_rt then
+--         vim.notify("rust-tools not found", vim.log.levels.ERROR)
+--         return
+--       end
+--
+--       local ok_dap, dap = pcall(require, "dap")
+--       if not ok_dap then
+--         vim.notify("nvim-dap not found", vim.log.levels.ERROR)
+--         return
+--       end
+--
+--       -- Try to find codelldb via Mason, fallback to PATH
+--       local ok_mason, mason_registry = pcall(require, "mason-registry")
+--       local adapter_path, liblldb_path
+--       if ok_mason and mason_registry.is_installed and mason_registry.is_installed("codelldb") then
+--         local pkg = mason_registry.get_package("codelldb")
+--         local install_path = pkg:get_install_path()
+--         adapter_path = install_path .. "/extension/adapter/codelldb"
+--         -- lib path differs by platform; common linux path:
+--         liblldb_path = install_path .. "/extension/lldb/lib/liblldb.so"
+--       else
+--         adapter_path = vim.fn.exepath("codelldb") ~= "" and vim.fn.exepath("codelldb") or nil
+--         liblldb_path = nil
+--       end
+--
+--       -- Use rust-tools helper to get adapter (if available)
+--       local ok_rust_dap, rust_dap = pcall(require, "rust-tools.dap")
+--       local dap_adapter = nil
+--       if ok_rust_dap and rust_dap.get_codelldb_adapter then
+--         dap_adapter = rust_dap.get_codelldb_adapter(adapter_path, liblldb_path)
+--       end
+--
+--       if dap_adapter then
+--         dap.adapters.codelldb = dap_adapter
+--       else
+--         -- Fallback: try lldb-vscode if codelldb isn't available
+--         if vim.fn.exepath("lldb-vscode") ~= "" then
+--           dap.adapters.codelldb = {
+--             type = "executable",
+--             command = "lldb-vscode",
+--             name = "lldb",
+--           }
+--         else
+--           vim.notify("codelldb and lldb-vscode not found. Install codelldb via Mason or put lldb-vscode in PATH.", vim.log.levels.WARN)
+--         end
+--       end
+--
+--       -- Add sensible configurations for rust
+--       dap.configurations.rust = dap.configurations.rust or {}
+--
+--       table.insert(dap.configurations.rust, {
+--         name = "Debug: Launch executable (target/debug/<crate>)",
+--         type = "codelldb",
+--         request = "launch",
+--         program = function()
+--           -- Try guessing the binary name from Cargo.toml crate name; fallback to asking user
+--           local cargo_toml = vim.fn.getcwd() .. "/Cargo.toml"
+--           if vim.fn.filereadable(cargo_toml) == 1 then
+--             local f = io.open(cargo_toml, "r")
+--             if f then
+--               for line in f:lines() do
+--                 local name = line:match('^name%s*=%s*"[%-_%w]+"')
+--                 if name then
+--                   name = name:match('"([%-_%w]+)"')
+--                   f:close()
+--                   local candidate = vim.fn.getcwd() .. "/target/debug/" .. name
+--                   if vim.fn.filereadable(candidate) == 1 or vim.fn.executable(candidate) == 1 then
+--                     return candidate
+--                   end
+--                   break
+--                 end
+--               end
+--               if not f then f:close() end
+--             end
+--           end
+--           return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+--         end,
+--         cwd = "${workspaceFolder}",
+--         stopOnEntry = false,
+--         args = {},
+--       })
+--
+--       table.insert(dap.configurations.rust, {
+--         name = "Attach to process",
+--         type = "codelldb",
+--         request = "attach",
+--         pid = require("dap.utils").pick_process,
+--         args = {},
+--       })
+--
+--       -- Setup rust-tools with dap adapter if possible
+--       local rt_opts = {
+--         server = {
+--           on_attach = function(_, bufnr)
+--             local rt = require("rust-tools")
+--             vim.keymap.set("n", "<C-space>", rt.hover_actions.hover_actions, { buffer = bufnr, desc = "Rust Hover Actions" })
+--             vim.keymap.set("n", "<Leader>a", rt.code_action_group.code_action_group, { buffer = bufnr, desc = "Rust Code Actions" })
+--             vim.keymap.set("n", "<leader>rr", rt.runnables.runnables, { buffer = bufnr, desc = "Run Rust Target" })
+--             vim.keymap.set("n", "<leader>dr", rt.debuggables.debuggables, { buffer = bufnr, desc = "Debug Rust Target" })
+--           end,
+--         },
+--       }
+--
+--       if dap_adapter and ok_rust_dap then
+--         rt_opts.dap = { adapter = dap_adapter }
+--       end
+--
+--       rust_tools.setup(rt_opts)
+--
+--       -- Try to setup dap-ui and virtual-text quietly
+--       pcall(function()
+--         require("dapui").setup()
+--         require("nvim-dap-virtual-text").setup({ enabled = true, enabled_commands = true })
+--       end)
+--
+--       -- Signs
+--       vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DiagnosticSignError", linehl = "", numhl = "" })
+--       vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DiagnosticSignHint", linehl = "", numhl = "" })
+--     end,
+--   },
+--
+--   -- Provide nvim-dap as a separate spec so Lazy can ensure it's available
+--   {
+--     "mfussenegger/nvim-dap",
+--     lazy = true,
+--   },
+--
+--   -- dap-ui (lazy)
+--   {
+--     "rcarriga/nvim-dap-ui",
+--     lazy = true,
+--     dependencies = { "mfussenegger/nvim-dap" },
+--   },
+--
+--   -- virtual-text for dap
+--   {
+--     "theHamsta/nvim-dap-virtual-text",
+--     lazy = true,
+--     dependencies = { "mfussenegger/nvim-dap" },
+--     opts = {
+--       enabled = true,
+--       enabled_commands = true,
+--       highlight_changed_variables = true,
+--       show_stop_reason = true,
+--       commented = false,
+--     },
+--   },
+-- }
+--

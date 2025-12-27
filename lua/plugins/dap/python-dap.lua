@@ -1,0 +1,154 @@
+-- -- Save as: lua/plugins/lang/python-dap.lua
+--
+-- return {
+--   {
+--     "mfussenegger/nvim-dap",
+--     dependencies = {
+--       "rcarriga/nvim-dap-ui",
+--       "nvim-neotest/nvim-nio",
+--       "mfussenegger/nvim-dap-python",
+--     },
+--     keys = {
+--       { "<leader>db", "<cmd>DapToggleBreakpoint<cr>", desc = "Toggle Breakpoint" },
+--       { "<leader>dc", "<cmd>DapContinue<cr>", desc = "Continue" },
+--       { "<leader>di", "<cmd>DapStepInto<cr>", desc = "Step Into" },
+--       { "<leader>do", "<cmd>DapStepOver<cr>", desc = "Step Over" },
+--       { "<leader>dO", "<cmd>DapStepOut<cr>", desc = "Step Out" },
+--       { "<leader>dt", "<cmd>DapTerminate<cr>", desc = "Terminate" },
+--       { "<leader>du", function() require("dapui").toggle() end, desc = "Toggle DAP UI" },
+--       { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
+--     },
+--     config = function()
+--       local dap = require("dap")
+--       local dapui = require("dapui")
+--
+--       -- Setup DAP UI
+--       ---@diagnostic disable-next-line: missing-fields
+--       dapui.setup({
+--         layouts = {
+--           {
+--             elements = {
+--               { id = "scopes", size = 0.25 },
+--               { id = "breakpoints", size = 0.25 },
+--               { id = "stacks", size = 0.25 },
+--               { id = "watches", size = 0.25 },
+--             },
+--             size = 40,
+--             position = "left",
+--           },
+--           {
+--             elements = {
+--               { id = "repl", size = 0.5 },
+--               { id = "console", size = 0.5 },
+--             },
+--             size = 10,
+--             position = "bottom",
+--           },
+--         },
+--       })
+--
+--       -- Auto open/close DAP UI
+--       dap.listeners.after.event_initialized["dapui_config"] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated["dapui_config"] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited["dapui_config"] = function()
+--         dapui.close()
+--       end
+--
+--       -- Setup Python debugger
+--       -- local path = require("mason-registry").get_package("debugpy"):get_install_path()
+--       -- require("dap-python").setup(path .. "/venv/bin/python")
+--
+--       ---@diagnostic disable-next-line: undefined-field
+--       -- Setup Python debugger (safe Mason check)
+--       local dap_python = require("dap-python")
+--
+--       local ok_mason, mason_registry = pcall(require, "mason-registry")
+--
+--       local function setup_debugpy()
+--         local debugpy_path
+--
+--         if ok_mason then
+--           -- Make sure Mason registry is fully loaded
+--           if not mason_registry.is_installed("debugpy") then
+--             vim.notify("debugpy not installed. Run :MasonInstall debugpy", vim.log.levels.WARN)
+--             return
+--           end
+--
+--           local pkg = mason_registry.get_package("debugpy")
+--           if pkg and pkg.get_install_path then
+--             debugpy_path = pkg:get_install_path()
+--           end
+--         end
+--
+--         -- Fallback path
+--         if not debugpy_path then
+--           debugpy_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy"
+--         end
+--
+--         local python_bin = debugpy_path .. "/venv/bin/python"
+--         dap_python.setup(python_bin)
+--       end
+--
+--       -- If Mason is ready, run immediately; otherwise, wait
+--       if ok_mason then
+--         if mason_registry.refresh then
+--           mason_registry.refresh(setup_debugpy)
+--         else
+--           setup_debugpy()
+--         end
+--       else
+--         setup_debugpy()
+--       end
+--
+--       -- Python configurations
+--       table.insert(dap.configurations.python, {
+--         type = "python",
+--         request = "launch",
+--         name = "Launch file with arguments",
+--         program = "${file}",
+--         args = function()
+--           local args_string = vim.fn.input("Arguments: ")
+--           return vim.split(args_string, " +")
+--         end,
+--       })
+--
+--       -- DAP signs
+--       vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "", linehl = "", numhl = "" })
+--       vim.fn.sign_define("DapBreakpointCondition", { text = "🟡", texthl = "", linehl = "", numhl = "" })
+--       vim.fn.sign_define("DapLogPoint", { text = "📝", texthl = "", linehl = "", numhl = "" })
+--       vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
+--       vim.fn.sign_define("DapBreakpointRejected", { text = "❌", texthl = "", linehl = "", numhl = "" })
+--     end,
+--   },
+--
+--   -- Install dap-python
+--   {
+--     "mfussenegger/nvim-dap-python",
+--     ft = "python",
+--     dependencies = { "mfussenegger/nvim-dap" },
+--   },
+--
+--   -- DAP UI
+--   {
+--     "rcarriga/nvim-dap-ui",
+--     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+--   },
+--
+--   -- Virtual text for debugging
+--   {
+--     "theHamsta/nvim-dap-virtual-text",
+--     dependencies = { "mfussenegger/nvim-dap" },
+--     opts = {
+--       enabled = true,
+--       enabled_commands = true,
+--       highlight_changed_variables = true,
+--       highlight_new_as_changed = false,
+--       show_stop_reason = true,
+--       commented = false,
+--     },
+--   },
+-- }

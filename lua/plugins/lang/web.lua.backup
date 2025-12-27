@@ -15,7 +15,7 @@ return {
     end,
   },
 
-  -- Auto-close HTML tags - ONLY for actual HTML/React files
+  -- Auto-close HTML tags
   {
     "windwp/nvim-ts-autotag",
     event = "InsertEnter",
@@ -24,18 +24,6 @@ return {
         enable_close = true,
         enable_rename = true,
         enable_close_on_slash = false,
-      },
-      -- CRITICAL: Only enable for HTML/React files, NOT plain JavaScript
-      filetypes = {
-        "html",
-        "htmldjango",
-        "blade",
-        "vue",
-        "jsx",
-        "tsx",
-        "typescriptreact",
-        "javascriptreact",
-        -- NOTE: Removed "javascript" from here so your scripts won't get auto-tags
       },
     },
   },
@@ -55,30 +43,23 @@ return {
           filetypes = { "css", "scss", "less" },
         },
 
-        -- Emmet - ONLY for HTML/CSS files, NOT JavaScript
+        -- Emmet
         emmet_ls = {
           filetypes = {
             "html",
             "htmldjango",
             "css",
             "scss",
-            -- Removed plain "javascript" - only React JSX gets Emmet
+            "javascript",
             "javascriptreact",
+            "typescript",
             "typescriptreact",
             "vue",
           },
         },
 
-        -- TypeScript/JavaScript - Clean LSP without HTML nonsense
-        ts_ls = {
-          -- Optional: You can add specific settings here if needed
-          init_options = {
-            preferences = {
-              -- Helps with Node.js modules in bug bounty scripts
-              includeCompletionsForModuleExports = true,
-            },
-          },
-        },
+        -- TypeScript/JavaScript
+        ts_ls = {},
       },
     },
   },
@@ -124,17 +105,17 @@ return {
   },
 
   -- Linting
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        html = { "htmlhint" },
-        -- css = { "stylelint" },
-        javascript = { "eslint_d" },
-        typescript = { "eslint_d" },
-      },
-    },
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   opts = {
+  --     linters_by_ft = {
+  --       html = { "htmlhint" },
+  --       -- css = { "stylelint" },
+  --       javascript = { "eslint_d" },
+  --       typescript = { "eslint_d" },
+  --     },
+  --   },
+  -- },
 
   -- Live Server
   {
