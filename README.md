@@ -77,7 +77,7 @@ mv ~/.cache/nvim ~/.cache/nvim.backup
 
 2. **Clone this repository**:
 ```bash
-git clone https://github.com/yourusername/nvim-config.git ~/.config/nvim
+git clone https://github.com/b1kr3m/PDE.git ~/.config/nvim
 ```
 
 3. **Install dependencies**:
