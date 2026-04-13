@@ -1,17 +1,18 @@
 return {
   {
     "barrett-ruth/live-server.nvim",
-    build = "npm install -g live-server",
     cmd = { "LiveServerStart", "LiveServerStop", "LiveServerToggle" },
-    config = function()
-      require("live-server").setup({
-        -- Arguments passed to live-server
-        args = {
-          "--port=5050",        -- Port number
-          "--browser=firefox",  -- Change to your browser: firefox, google-chrome, brave
-          "--no-css-inject",    -- Disable CSS injection (full reload)
-        },
-      })
+    ft = { "html", "css", "javascript", "javascriptreact", "typescriptreact" },
+    keys = {
+      { "<leader>cL", "<cmd>LiveServerStart<cr>", desc = "Start Live Server", ft = "html" },
+      { "<leader>cl", "<cmd>LiveServerStop<cr>", desc = "Stop Live Server", ft = "html" },
+    },
+    init = function()
+      vim.g.live_server = {
+        port = 5050,
+        browser = true,
+        css_inject = true,
+      }
     end,
   },
 }

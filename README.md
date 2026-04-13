@@ -49,7 +49,7 @@ This configuration prioritizes functionality over flashy features, providing a s
 
 - **Neovim** >= 0.9.0
 - **Git** >= 2.19.0
-- **Node.js** (for Copilot, live-server, and some LSPs)
+- **Node.js** (for Copilot and some LSPs)
 - **Python 3** (for Python development)
 - **Go** (for Go development)
 - **Rust** (optional, for Rust development)
@@ -82,9 +82,6 @@ git clone https://github.com/b1kr3m/PDE.git ~/.config/nvim
 
 3. **Install dependencies**:
 ```bash
-# Install live-server globally
-npm install -g live-server
-
 # Install Python formatters (optional)
 pip install black isort
 ```
@@ -114,11 +111,15 @@ LazyVim will automatically install all plugins on first launch.
 │       │   ├── live-server.lua # Web development server
 │       │   └── telescope.lua  # Fuzzy finder
 │       ├── lang/              # Language-specific configs
+│       │   ├── css.lua        # CSS/SCSS/Tailwind
 │       │   ├── go.lua         # Go development
+│       │   ├── html.lua       # HTML + Emmet + Live Server
+│       │   ├── javascript.lua # JavaScript + ESLint
 │       │   ├── python.lua     # Python development
+│       │   ├── react.lua      # React JSX/TSX helpers
 │       │   ├── rust.lua       # Rust development
 │       │   ├── shell.lua      # Shell scripting
-│       │   └── web.lua        # Web development (HTML/CSS/JS)
+│       │   └── typescript.lua # TypeScript + TS Server
 │       └── ui/                # UI enhancements
 │           └── dashboard.lua  # Startup dashboard
 ├── lazy-lock.json             # Plugin version lock
@@ -216,6 +217,50 @@ return {
   },
 }
 ```
+
+### React + TypeScript Setup
+
+This config now supports a proper React workflow out of the box:
+
+- `tsx`, `typescript`, `javascript`, `javascriptreact`, and `typescriptreact` via Treesitter
+- `ts_ls` for TypeScript/JavaScript language features
+- `eslint` and `eslint_d` for React/TypeScript linting
+- `tailwindcss` LSP for Tailwind projects
+- `emmet_ls` for fast JSX/TSX markup expansion
+- `prettierd` / `prettier` for formatting
+
+For a React project, install the project-side tools as well:
+
+```bash
+npm install -D typescript eslint prettier @types/react @types/react-dom
+```
+
+If you use Vite:
+
+```bash
+npm create vite@latest my-app -- --template react-ts
+cd my-app
+npm install
+```
+
+Then open the project with:
+
+```bash
+nvim .
+```
+
+On first launch inside Neovim:
+
+1. Run `:Mason` and confirm `typescript-language-server`, `eslint-lsp`, `tailwindcss-language-server`, `prettierd`, and `emmet-ls` are installed.
+2. Open a `.tsx` file and run `:LspInfo` to verify `ts_ls` is attached.
+3. Run `:ConformInfo` if formatting is not triggering.
+
+Recommended filetypes for React work:
+
+- `.tsx` for React components written in TypeScript
+- `.ts` for utility/modules without JSX
+- `.jsx` only if the project is JavaScript-based
+- `.js` for non-React plain JavaScript
 
 ### Modifying Dashboard
 
