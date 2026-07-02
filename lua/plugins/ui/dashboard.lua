@@ -23,9 +23,6 @@ return {
           { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
           { icon = " ", key = "g", desc = "Find Text", action = ":Telescope live_grep" },
           { icon = " ", key = "r", desc = "Recent Files", action = ":Telescope oldfiles" },
-          { icon = "❁ ", key = "d", desc = "Devlopment", action = ":cd ~/dev| Telescope find_files" },
-          { icon = "☎ ", key = "h", desc = "Hyprland", action = ":cd ~/.config/hypr/ | Telescope find_files" },
-          { icon = "☢ ", key = "s", desc = "Scripts", action = ":cd /opt/scripts/ | Telescope find_files" },
           { icon = " ", key = "c", desc = "Config", action = ":edit $MYVIMRC" },
           { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy" },
           { icon = " ", key = "q", desc = "Quit", action = ":qa" },
@@ -51,11 +48,6 @@ return {
           section = "projects",
           indent = 2,
           padding = 1,
-          -- Add custom projects here
-          action = function()
-            -- Option 1: Open telescope projects picker
-            vim.cmd("Telescope projects")
-          end,
         },
         { section = "startup" },
       },
