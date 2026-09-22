@@ -37,7 +37,6 @@ return {
         "isort",
         -- "flake8",
         -- "mypy",
-        "debugpy",
       },
     },
   },

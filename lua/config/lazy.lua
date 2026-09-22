@@ -23,7 +23,6 @@ require("lazy").setup({
     { import = "plugins.editor" },
     { import = "plugins.lang" },
     { import = "plugins.ui" },
-    -- { import = "plugins.dap" },
     -- { import = "plugins.lsp" },
     -- { import = "plugins.coding" },
     -- { import = "plugins.core" },
@@ -32,7 +31,6 @@ require("lazy").setup({
   },
 
   defaults = {
-    lazy = false,
     version = false,
   },
 

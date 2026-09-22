@@ -43,7 +43,6 @@ This configuration prioritizes functionality over flashy features, providing a s
 - **Format on Save**: Automatic code formatting with conform.nvim
 - **Linting**: Real-time code analysis with nvim-lint
 - **Treesitter**: Advanced syntax highlighting and code understanding
-- **Debugging**: DAP integration for debugging sessions
 
 ## 📋 Prerequisites
 

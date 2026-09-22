@@ -2,7 +2,7 @@ return {
   -- Rust Tools
   {
     "simrat39/rust-tools.nvim",
-    dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim", "mfussenegger/nvim-dap" },
+    dependencies = { "neovim/nvim-lspconfig", "nvim-lua/plenary.nvim" },
     ft = "rust",
     opts = {
       server = {
@@ -33,7 +33,6 @@ return {
     opts = {
       ensure_installed = {
         "rust-analyzer",
-        "codelldb", -- Debugger
       },
     },
   },

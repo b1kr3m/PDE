@@ -38,7 +38,6 @@ return {
         "goimports",
         "gomodifytags",
         "impl",
-        "delve", -- Debugger
       },
     },
   },

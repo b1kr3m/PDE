@@ -11,10 +11,10 @@ return {
         max_width = { 40, 0.2 },
         width = 30,
         min_width = 20,
-        default_direction = "prefer_right",  -- Show on right side
+        default_direction = "prefer_right", -- Show on right side
         placement = "edge",
       },
-      attach_mode = "global",  -- Always show for all files
+      attach_mode = "global", -- Always show for all files
       close_automatic_events = {},
       keymaps = {
         ["?"] = "actions.show_help",
