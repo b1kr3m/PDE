@@ -59,13 +59,13 @@ return {
   },
 
   -- Linting
-  {
-    "mfussenegger/nvim-lint",
-    opts = {
-      linters_by_ft = {
-        javascriptreact = { "eslint_d" },
-        typescriptreact = { "eslint_d" },
-      },
-    },
-  },
+  -- {
+  --   "mfussenegger/nvim-lint",
+  --   opts = {
+  --     linters_by_ft = {
+  --       javascriptreact = { "eslint_d" },
+  --       typescriptreact = { "eslint_d" },
+  --     },
+  --   },
+  -- },
 }
