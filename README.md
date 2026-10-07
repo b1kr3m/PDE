@@ -1,268 +1,128 @@
-# b1kr3m's Development Environment
+# Neovim Development Configuration
 
-A lightweight, highly customized Neovim configuration tailored for security researchers, bug bounty hunters, and penetration testers. Built with performance and efficiency in mind for daily security testing workflows.
+A personal Neovim setup built on [LazyVim](https://www.lazyvim.org/) and
+[lazy.nvim](https://github.com/folke/lazy.nvim). It provides a practical
+environment for general software development, with language support for web
+development, scripting, and systems programming.
 
-<img width="1914" height="1076" alt="image" src="https://github.com/user-attachments/assets/4dd14a03-eb15-4b0b-aa56-971358d89bdc" />
-
+<img width="1914" height="1076" alt="Neovim configuration screenshot" src="https://github.com/user-attachments/assets/4dd14a03-eb15-4b0b-aa56-971358d89bdc" />
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Neovim](https://img.shields.io/badge/Neovim-0.9+-green.svg)](https://neovim.io)
-[![LazyVim](https://img.shields.io/badge/LazyVim-Latest-purple.svg)](https://www.lazyvim.org/)
 
-## 🎯 Philosophy
+## Features
 
-As a security enthusiast who regularly breaks and tests systems, I needed a development environment that is:
-- **Lightweight** - Fast startup and minimal resource usage
-- **Reliable** - Stable enough for daily security research
-- **Customizable** - Easily adaptable to evolving workflows
-- **Efficient** - Optimized for rapid development and testing
+- LazyVim defaults with local plugin specifications managed by lazy.nvim
+- Language server, formatting, linting, and Treesitter configuration for
+  Astro, C/C++, CSS, Go, HTML, JavaScript, React, Python, Rust, shell, and
+  TypeScript
+- Blink completion with GitHub Copilot integration
+- Telescope file and text search, project navigation, and Neo-tree
+- Aerial symbol outline and a custom Snacks dashboard
+- Optional auto-save, disabled by default
+- Live server commands for web development
+- Git integration and Neotest support for Python and Go
+- Gruvbox as the configured colorscheme
 
-This configuration prioritizes functionality over flashy features, providing a solid foundation for security research and development work.
+## Requirements
 
-## ✨ Features
+- Neovim
+- Git
+- A Nerd Font is recommended for icons
+- Language runtimes and development tools are needed only for the languages
+  and features you use
 
-### 🔧 Core Capabilities
-- **LazyVim-based**: Built on the excellent LazyVim framework for sensible defaults
-- **Language Support**: Preconfigured for Go, Python, JavaScript, Rust, Shell scripting, and web development
-- **Smart Completion**: Blink.cmp with Copilot and Codeium AI assistance
-- **Live Development**: Built-in live server for web testing and development
-- **Git Integration**: Comprehensive Git workflow support
-- **Symbol Navigation**: Aerial plugin for code structure overview
-- **Auto-save**: Intelligent auto-save with configurable triggers
+The configuration uses Mason for many language servers, formatters, and
+linters. Some tools, such as project-specific test runners, may need to be
+installed separately. Python tests use `pytest`; Go tests use the Go toolchain.
 
-### 🎨 UI Enhancements
-- **Catppuccin & Tokyo Night**: Beautiful, eye-friendly color schemes
-- **Dashboard**: Custom startup screen with quick access shortcuts
-- **Bufferline**: Enhanced buffer management
-- **Statusline**: Informative lualine configuration
-- **Noice**: Modern UI for messages, cmdline, and popups
+## Installation
 
-### 🚀 Developer Experience
-- **Fuzzy Finding**: Telescope and fzf-lua for rapid file navigation
-- **LSP Support**: Full Language Server Protocol integration
-- **Format on Save**: Automatic code formatting with conform.nvim
-- **Linting**: Real-time code analysis with nvim-lint
-- **Treesitter**: Advanced syntax highlighting and code understanding
+Back up any existing Neovim configuration before cloning:
 
-## 📋 Prerequisites
-
-- **Neovim** >= 0.9.0
-- **Git** >= 2.19.0
-- **Node.js** (for Copilot and some LSPs)
-- **Python 3** (for Python development)
-- **Go** (for Go development)
-- **Rust** (optional, for Rust development)
-- **A Nerd Font** (recommended: JetBrainsMono Nerd Font)
-
-### System-Specific Requirements
-
-**Arch Linux (with Hyprland)**:
-```bash
-sudo pacman -S neovim git nodejs npm python python-pip
-yay -S ttf-jetbrains-mono-nerd  # or your preferred AUR helper
-```
-
-## 🔧 Installation
-
-### Fresh Installation
-
-1. **Backup existing configuration** (if any):
-```bash
+```sh
 mv ~/.config/nvim ~/.config/nvim.backup
-mv ~/.local/share/nvim ~/.local/share/nvim.backup
-mv ~/.local/state/nvim ~/.local/state/nvim.backup
-mv ~/.cache/nvim ~/.cache/nvim.backup
-```
-
-2. **Clone this repository**:
-```bash
 git clone https://github.com/b1kr3m/PDE.git ~/.config/nvim
-```
-
-3. **Install dependencies**:
-```bash
-# Install Python formatters (optional)
-pip install black isort
-```
-
-4. **Launch Neovim**:
-```bash
 nvim
 ```
 
-LazyVim will automatically install all plugins on first launch.
+On first launch, lazy.nvim bootstraps itself and installs the configured
+plugins. Mason-managed tools can be installed from within Neovim using
+`:Mason`.
 
-## ⚙️ Configuration Structure
+## Configuration
 
-```
-~/.config/nvim/
-├── init.lua                    # Entry point
-├── lua/
-│   ├── config/
-│   │   ├── autocmds.lua       # Auto commands
-│   │   ├── keymaps.lua        # Custom key mappings
-│   │   ├── lazy.lua           # Plugin manager setup
-│   │   └── options.lua        # Neovim options
-│   └── plugins/
-│       ├── editor/            # Editor enhancement plugins
-│       │   ├── aerial.lua     # Symbol outline
-│       │   ├── auto-save.lua  # Auto-save functionality
-│       │   ├── live-server.lua # Web development server
-│       │   └── telescope.lua  # Fuzzy finder
-│       ├── lang/              # Language-specific configs
-│       │   ├── css.lua        # CSS/SCSS/Tailwind
-│       │   ├── go.lua         # Go development
-│       │   ├── html.lua       # HTML + Emmet + Live Server
-│       │   ├── javascript.lua # JavaScript + ESLint
-│       │   ├── python.lua     # Python development
-│       │   ├── react.lua      # React JSX/TSX helpers
-│       │   ├── rust.lua       # Rust development
-│       │   ├── shell.lua      # Shell scripting
-│       │   └── typescript.lua # TypeScript + TS Server
-│       └── ui/                # UI enhancements
-│           └── dashboard.lua  # Startup dashboard
-├── lazy-lock.json             # Plugin version lock
-├── lazyvim.json               # LazyVim extras
-└── stylua.toml                # Lua formatter config
+```text
+.
+├── init.lua
+├── lua
+│   ├── config
+│   │   ├── autocmds.lua
+│   │   ├── keymaps.lua
+│   │   ├── lazy.lua
+│   │   └── options.lua
+│   └── plugins
+│       ├── coding
+│       ├── editor
+│       ├── lang
+│       └── ui
+├── lazy-lock.json
+└── lazyvim.json
 ```
 
-## 🎮 Key Mappings
+`lua/config/` contains the core options, keymaps, autocommands, and plugin
+manager setup. `lua/plugins/` contains local plugin and language
+specifications. `lazy-lock.json` records installed plugin revisions, and
+`lazyvim.json` lists enabled LazyVim extras.
 
-### Custom Mappings
+## Key mappings
 
-| Mode | Key | Action | Description |
-|------|-----|--------|-------------|
-| Insert | `jj` | `<Esc>` | Quick escape to normal mode |
-| Normal | `<leader>cs` | `:AerialToggle` | Toggle symbol outline |
-| Normal | `<leader>as` | `:ASToggle` | Toggle auto-save |
-| Normal | `<leader>cL` | `:LiveServerStart` | Start live server (HTML files) |
-| Normal | `<leader>cl` | `:LiveServerStop` | Stop live server |
+The leader key is Space. LazyVim provides the standard mappings for navigation,
+LSP, Git, and other features; use `:WhichKey` to inspect the active mappings.
 
-### LazyVim Default Mappings
+| Mapping | Description |
+| --- | --- |
+| `jj` in Insert mode | Return to Normal mode |
+| `<leader>rr` | Compile and run the current C or C++ file with `g++` |
+| `<leader>cs` | Toggle the Aerial symbol outline |
+| `<leader>as` | Toggle auto-save |
+| `<leader>cL` | Start the live server in an HTML buffer |
+| `<leader>cl` | Stop the live server in an HTML buffer |
 
-For a complete list of default LazyVim keybindings, see [LazyVim Keymaps](https://www.lazyvim.org/keymaps).
+Auto-save is disabled by default. Enable it with `<leader>as` when desired.
+The C/C++ mapping assumes `g++` is installed and writes the executable beside
+the source file.
 
-**Most Used:**
-- `<leader>ff` - Find files
-- `<leader>fg` - Live grep
-- `<leader>e` - Toggle file explorer
-- `<leader>gg` - LazyGit
-- `<C-/>` - Toggle terminal
+## Language tools
 
-## 🔌 Installed Plugins
+Language support is defined in `lua/plugins/lang/`. LSP servers, formatters,
+and linters are configured through LazyVim's LSP support, Mason, Conform, and
+nvim-lint. Available configurations include:
 
-### Essential Plugins
+| Language or file type | Support |
+| --- | --- |
+| Astro | Astro language server and Prettier with the Astro plugin |
+| C and C++ | clangd and clang-format |
+| CSS and SCSS | CSS, Emmet, and Tailwind language servers; Prettier |
+| Go | gopls, goimports, and gofumpt |
+| HTML | HTML and Emmet language servers; Prettier and HTMLHint |
+| JavaScript | TypeScript language server, ESLint, and Prettier |
+| React | JSX and TSX support, Emmet, Tailwind, ESLint, and Prettier |
+| Python | Pyright, isort, and Black |
+| Rust | rust-analyzer through rust-tools |
+| Shell | bash-language-server, shfmt, and ShellCheck |
+| TypeScript | TypeScript language server, ESLint, and Prettier |
 
-- **[LazyVim](https://github.com/LazyVim/LazyVim)** - Neovim config framework
-- **[lazy.nvim](https://github.com/folke/lazy.nvim)** - Plugin manager
-- **[telescope.nvim](https://github.com/nvim-telescope/telescope.nvim)** - Fuzzy finder
-- **[neo-tree.nvim](https://github.com/nvim-neo-tree/neo-tree.nvim)** - File explorer
-- **[nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesitter)** - Syntax parsing
+Lua formatting on save is intentionally disabled by a buffer-local setting.
+For language server, formatter, and linter status, use `:LspInfo`,
+`:ConformInfo`, and `:Mason`.
 
-### Coding Assistance
+## Customization
 
-- **[blink.cmp](https://github.com/Saghen/blink.cmp)** - Completion engine
-- **[copilot.lua](https://github.com/zbirenbaum/copilot.lua)** - GitHub Copilot integration
-- **[codeium.nvim](https://github.com/Exafunction/codeium.nvim)** - Codeium AI integration
-- **[conform.nvim](https://github.com/stevearc/conform.nvim)** - Code formatting
-- **[nvim-lint](https://github.com/mfussenegger/nvim-lint)** - Linting
+- Edit `lua/config/options.lua` to change editor options.
+- Edit `lua/config/keymaps.lua` to add global mappings.
+- Add or update language specifications in `lua/plugins/lang/`.
+- Update plugin specifications in the appropriate `lua/plugins/` directory.
+- Use `:Lazy` to inspect plugins and apply plugin updates.
 
-### UI Enhancements
-
-- **[catppuccin](https://github.com/catppuccin/nvim)** - Color scheme
-- **[tokyonight.nvim](https://github.com/folke/tokyonight.nvim)** - Color scheme
-- **[lualine.nvim](https://github.com/nvim-lualine/lualine.nvim)** - Status line
-- **[bufferline.nvim](https://github.com/akinsho/bufferline.nvim)** - Buffer tabs
-- **[noice.nvim](https://github.com/folke/noice.nvim)** - Modern UI
-
-### Language Support
-
-- **LSPs**: gopls, pyright, rust-analyzer, typescript-language-server, html-lsp, css-lsp
-- **Formatters**: gofumpt, black, prettier, shfmt
-- **Linters**: shellcheck, eslint_d
-
-## 🛠️ Customization
-
-### Changing the Color Scheme
-
-Edit `lua/config/lazy.lua` to modify the colorscheme preference:
-
-```lua
-install = { colorscheme = { "catppuccin", "tokyonight" } },
-```
-
-### Adding New Languages
-
-Create a new file in `lua/plugins/lang/` following the existing patterns. Example structure:
-
-```lua
-return {
-  -- Treesitter
-  {
-    "nvim-treesitter/nvim-treesitter",
-    opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "your-language" })
-    end,
-  },
-  
-  -- LSP configuration
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      servers = {
-        your_lsp = {},
-      },
-    },
-  },
-}
-```
-
-### React + TypeScript Setup
-
-This config now supports a proper React workflow out of the box:
-
-- `tsx`, `typescript`, `javascript`, `javascriptreact`, and `typescriptreact` via Treesitter
-- `ts_ls` for TypeScript/JavaScript language features
-- `eslint` and `eslint_d` for React/TypeScript linting
-- `tailwindcss` LSP for Tailwind projects
-- `emmet_ls` for fast JSX/TSX markup expansion
-- `prettierd` / `prettier` for formatting
-
-For a React project, install the project-side tools as well:
-
-```bash
-npm install -D typescript eslint prettier @types/react @types/react-dom
-```
-
-If you use Vite:
-
-```bash
-npm create vite@latest my-app -- --template react-ts
-cd my-app
-npm install
-```
-
-Then open the project with:
-
-```bash
-nvim .
-```
-
-On first launch inside Neovim:
-
-1. Run `:Mason` and confirm `typescript-language-server`, `eslint-lsp`, `tailwindcss-language-server`, `prettierd`, and `emmet-ls` are installed.
-2. Open a `.tsx` file and run `:LspInfo` to verify `ts_ls` is attached.
-3. Run `:ConformInfo` if formatting is not triggering.
-
-Recommended filetypes for React work:
-
-- `.tsx` for React components written in TypeScript
-- `.ts` for utility/modules without JSX
-- `.jsx` only if the project is JavaScript-based
-- `.js` for non-React plain JavaScript
-
-### Modifying Dashboard
-
-Edit `lua/plugins/ui/dashboard.lua` to customize the startup screen, including shortcuts and ASCII art.
-
-**Happy Hacking! 🔐**
+After changing plugin specifications, review `lazy-lock.json` and keep it
+consistent with the configured plugins.
