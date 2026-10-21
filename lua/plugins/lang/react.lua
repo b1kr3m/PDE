@@ -33,12 +33,19 @@ return {
       servers = {
         emmet_ls = {
           filetypes = {
+            "html",
+            "htmldjango",
+            "css",
+            "scss",
             "javascriptreact",
             "typescriptreact",
           },
         },
         tailwindcss = {
           filetypes = {
+            "html",
+            "css",
+            "scss",
             "javascriptreact",
             "typescriptreact",
           },
